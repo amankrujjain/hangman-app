@@ -1,18 +1,14 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
-import { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 
-import LoadingBar from "../components/Home/LoadingBar";
 import FeaturedBanners from "../components/Home/FeaturedBanners";
 
 export default function HomeScreen() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
 
   const start = () => {
-    if (loading) return;
-    setLoading(true);
+    router.push("/mode");
   };
 
   return (
@@ -23,14 +19,6 @@ export default function HomeScreen() {
         <Text style={styles.tagline}>
           Guess Wrong, Face the Dare! 🎭
         </Text>
-
-        <View style={{ marginTop: 40 }}>
-          {loading && (
-            <LoadingBar
-              onComplete={() => router.push("/mode")}
-            />
-          )}
-        </View>
 
         <FeaturedBanners />
       </View>
