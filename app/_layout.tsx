@@ -1,24 +1,42 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+import { Slot } from "expo-router";
+import { useEffect } from "react";
+import * as ScreenOrientation from "expo-screen-orientation";
+import { StatusBar } from "expo-status-bar";
 
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { AppUIProvider, useAppUI } from "../context/AppUIContext";
+import { GameProvider } from "../context/GameContext";
+import AppLoader from "../components/loader/AppLoader";
 
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+function RootLayoutInner() {
+  const { isAppLoading, setAppLoading } = useAppUI();
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  useEffect(() => {
+    ScreenOrientation.lockAsync(
+      ScreenOrientation.OrientationLock.PORTRAIT
+    );
+
+    const t = setTimeout(() => {
+      setAppLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(t);
+  }, []);
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <>
+      <StatusBar style="light" />
+      <Slot />
+      {isAppLoading && <AppLoader />}
+    </>
+  );
+}
+
+export default function RootLayout() {
+  return (
+    <AppUIProvider>
+      <GameProvider>
+        <RootLayoutInner />
+      </GameProvider>
+    </AppUIProvider>
   );
 }
