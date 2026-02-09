@@ -11,8 +11,7 @@ export default function TopBar() {
   const { musicOn, toggleMusic, openDrawer } = useUIControls();
   const insets = useSafeAreaInsets();
 
-  // ❌ Hide on Home
-  if (pathname === "/") return null;
+  const isHome = pathname === "/";
 
   return (
     <View
@@ -22,13 +21,22 @@ export default function TopBar() {
       ]}
     >
       {/* Back */}
-      <TopBarButton
-        onPress={() => {
-          if (router.canGoBack()) router.back();
-        }}
-      >
-        <Ionicons name="chevron-back" size={26} color="#fff" />
-      </TopBarButton>
+      <View>
+        {/* ✅ CHANGE: hide ONLY back button on Home */}
+        {!isHome && (
+          <TopBarButton
+            onPress={() => {
+              if (router.canGoBack()) router.back();
+            }}
+          >
+            <Ionicons
+              name="chevron-back"
+              size={26}
+              color="#fff"
+            />
+          </TopBarButton>
+        )}
+      </View>
 
       {/* Right actions */}
       <View style={styles.right}>

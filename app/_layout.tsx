@@ -8,6 +8,7 @@ import { AppUIProvider, useAppUI } from "../context/AppUIContext";
 import { GameProvider } from "../context/GameContext";
 import AppLoader from "../components/loader/AppLoader";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import SettingsDrawer from "../components/Drawer/SettingDrawer";
 
 function RootLayoutInner() {
   const { isAppLoading, setAppLoading } = useAppUI();
@@ -29,6 +30,7 @@ function RootLayoutInner() {
       <StatusBar style="light" />
       {!isAppLoading && <TopBar />}
       <Slot />
+       <SettingsDrawer />
       {isAppLoading && <AppLoader />}
     </>
   );

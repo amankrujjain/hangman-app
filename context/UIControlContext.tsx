@@ -8,13 +8,18 @@ import * as Haptics from "expo-haptics";
 import { Audio } from "expo-av";
 
 type UIControlsContextType = {
+  /* Audio */
   musicOn: boolean;
+  soundOn: boolean;
   toggleMusic: () => void;
+  toggleSound: () => void;
 
+  /* Drawer */
   drawerOpen: boolean;
   openDrawer: () => void;
   closeDrawer: () => void;
 
+  /* UI click */
   click: () => void;
 };
 
@@ -24,7 +29,11 @@ const UIControlsContext =
 export const UIControlsProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
+  /* ---------------------------
+     STATE
+  ---------------------------- */
   const [musicOn, setMusicOn] = useState(true);
+  const [soundOn, setSoundOn] = useState(true);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const [bgSound, setBgSound] =
@@ -33,19 +42,22 @@ export const UIControlsProvider: React.FC<{
     useState<Audio.Sound | null>(null);
 
   /* ---------------------------
-     INIT AUDIO (ON APP START)
+     INIT AUDIO (ONCE)
   ---------------------------- */
   useEffect(() => {
     let mounted = true;
 
     (async () => {
       try {
-          await Audio.setAudioModeAsync({
-              allowsRecordingIOS: false,
-              staysActiveInBackground: false,
-              playsInSilentModeIOS: true,
-              shouldDuckAndroid: true,
-          });
+        await Audio.setAudioModeAsync({
+          allowsRecordingIOS: false,
+          staysActiveInBackground: false,
+          playsInSilentModeIOS: true,
+          shouldDuckAndroid: false,
+          playThroughEarpieceAndroid: false,
+        });
+
+        // Background music
         const { sound: bg } =
           await Audio.Sound.createAsync(
             require("../assets/audio/bg.mp3"),
@@ -60,7 +72,7 @@ export const UIControlsProvider: React.FC<{
         const { sound: click } =
           await Audio.Sound.createAsync(
             require("../assets/audio/click.mp3"),
-            { volume: 0.9 }
+            { volume: 1.0 }
           );
 
         if (!mounted) return;
@@ -80,17 +92,22 @@ export const UIControlsProvider: React.FC<{
   }, []);
 
   /* ---------------------------
-     HAPTIC + CLICK SOUND
+     CLICK (HAPTIC + SOUND)
   ---------------------------- */
   const click = async () => {
-    await Haptics.selectionAsync();
     try {
-      await clickSound?.replayAsync();
+      if (!soundOn) return;
+
+      await Haptics.selectionAsync();
+
+      if (!clickSound) return;
+      await clickSound.setPositionAsync(0); // 🔑 CRITICAL
+      await clickSound.playAsync();
     } catch {}
   };
 
   /* ---------------------------
-     MUSIC TOGGLE
+     MUSIC TOGGLE (BG)
   ---------------------------- */
   const toggleMusic = async () => {
     click();
@@ -106,7 +123,15 @@ export const UIControlsProvider: React.FC<{
   };
 
   /* ---------------------------
-     DRAWER CONTROL
+     SOUND TOGGLE (CLICK)
+  ---------------------------- */
+  const toggleSound = () => {
+    click();
+    setSoundOn((prev) => !prev);
+  };
+
+  /* ---------------------------
+     DRAWER
   ---------------------------- */
   const openDrawer = () => {
     click();
@@ -122,7 +147,9 @@ export const UIControlsProvider: React.FC<{
     <UIControlsContext.Provider
       value={{
         musicOn,
+        soundOn,
         toggleMusic,
+        toggleSound,
         drawerOpen,
         openDrawer,
         closeDrawer,
