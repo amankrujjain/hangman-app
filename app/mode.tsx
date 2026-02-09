@@ -2,9 +2,11 @@ import { View, Text, StyleSheet, Pressable } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { ROUTES } from "../constants/routes";
-
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+  
 export default function ModeScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
 
   const startGame = (mode: "fun" | "spicy") => {
     router.push({
@@ -14,7 +16,13 @@ export default function ModeScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[
+    styles.container,
+    {
+      paddingTop: insets.top + 16,
+      paddingBottom: insets.bottom + 24,
+    },
+  ]}>
       {/* Title */}
       <View style={styles.header}>
         <Text style={styles.title}>HAGMAN</Text>
@@ -79,8 +87,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#1a1a2e",
-    padding: 24,
-    justifyContent: "center",
+    paddingHorizontal: 24,
   },
   header: {
     alignItems: "center",
@@ -93,20 +100,20 @@ const styles = StyleSheet.create({
     color: "#fca5a5",
   },
   subtitle: {
-    marginTop: 6,
+    marginTop: 2,
     fontSize: 18,
     color: "#d1d5db",
     fontWeight: "600",
   },
   cards: {
-    gap: 20,
+    gap: 10,
   },
   card: {
     borderRadius: 24,
     overflow: "hidden",
   },
   cardBg: {
-    paddingVertical: 28,
+    paddingVertical: 20,
     alignItems: "center",
     borderRadius: 24,
   },
@@ -128,7 +135,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   footer: {
-    marginTop: 40,
+    marginTop: 24,
     textAlign: "center",
     color: "#9ca3af",
     fontSize: 14,

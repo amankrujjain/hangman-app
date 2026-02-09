@@ -1,12 +1,12 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import FeaturedBanners from "../components/Home/FeaturedBanners";
 
 export default function HomeScreen() {
   const router = useRouter();
-
+  const insets = useSafeAreaInsets();
   const start = () => {
     router.push("/mode");
   };
@@ -24,7 +24,7 @@ export default function HomeScreen() {
       </View>
 
       {/* Bottom CTA */}
-      <View style={styles.bottom}>
+      <View style={[styles.bottom, { paddingBottom: insets.bottom + 20 }]}>
         <Pressable
           onPress={start}
           style={({ pressed }) => [
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     color: "#fca5a5",
   },
   tagline: {
-    marginTop: 8,
+    marginTop: 6,
     fontSize: 15,
     color: "#d1d5db",
     fontWeight: "600",

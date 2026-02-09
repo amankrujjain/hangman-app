@@ -7,11 +7,13 @@ import WordDisplay from "../components/Game/WordDisplay";
 import Keyboard from "../components/Game/Keyboard";
 import HangmanDrawing from "../components/Game/HangmanDrawing";
 import ResultModal from "../components/Game/ResultModal";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function GameScreen() {
   const { mode } = useLocalSearchParams<{ mode: "fun" | "spicy" }>();
   const router = useRouter();
   const game = useGame();
+  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     if (mode) {
@@ -20,7 +22,13 @@ export default function GameScreen() {
   }, [mode]);
 
   return (
-    <View style={styles.container}>
+    <View style={[
+    styles.container,
+    {
+      paddingTop: insets.top + 12,
+      paddingBottom: insets.bottom + 16,
+    },
+  ]}>
       <Text style={styles.mode}>
         {game.mode === "fun" ? "😂 FUN MODE" : "🔥 SPICY MODE"}
       </Text>
@@ -56,8 +64,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#1a1a2e",
     alignItems: "center",
-    padding: 24,
-    justifyContent: "center",
   },
   mode: {
     fontSize: 22,
