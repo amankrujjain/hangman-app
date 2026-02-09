@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect } from "react";
 
@@ -10,7 +10,7 @@ import ResultModal from "../components/Game/ResultModal";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function GameScreen() {
-  const { mode } = useLocalSearchParams<{ mode: "fun" | "spicy" }>();
+  const { mode } = useLocalSearchParams<{ mode: "fun" | "spicy" | "chaos" }>();
   const router = useRouter();
   const game = useGame();
   const insets = useSafeAreaInsets();
@@ -29,8 +29,12 @@ export default function GameScreen() {
       paddingBottom: insets.bottom + 16,
     },
   ]}>
-      <Text style={styles.mode}>
-        {game.mode === "fun" ? "😂 FUN MODE" : "🔥 SPICY MODE"}
+<Text style={styles.mode}>
+        {game.mode === "fun"
+          ? "😂 FUN MODE"
+          : game.mode === "spicy"
+          ? "🔥 SPICY MODE"
+          : "😈 CHAOS MODE"}
       </Text>
 
       <HangmanDrawing wrongGuesses={game.wrongGuesses} />

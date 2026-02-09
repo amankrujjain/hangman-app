@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, Pressable, Modal } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Confetti from "./Confetti";
+import { useUIControls } from "../../context/UIControlContext";
 
 type Props = {
   visible: boolean;
@@ -19,6 +20,8 @@ export default function ResultModal({
   onPlayAgain,
   onHome,
 }: Props) {
+    const { click } = useUIControls();
+
   return (
     <Modal transparent visible={visible} animationType="fade">
       <View style={styles.overlay}>
@@ -44,7 +47,7 @@ export default function ResultModal({
           )}
 
           <View style={styles.actions}>
-            <Pressable onPress={onPlayAgain} style={styles.btn}>
+            <Pressable onPress={() => {click(); onPlayAgain();}} style={styles.btn}>
               <LinearGradient
                 colors={["#6366f1", "#8b5cf6"]}
                 style={styles.btnBg}
@@ -53,7 +56,7 @@ export default function ResultModal({
               </LinearGradient>
             </Pressable>
 
-            <Pressable onPress={onHome} style={styles.btn}>
+            <Pressable onPress={() => {click(); onHome();}} style={styles.btn}>
               <View style={[styles.btnBg, styles.homeBtn]}>
                 <Text style={styles.btnText}>Home 🏠</Text>
               </View>
@@ -76,7 +79,7 @@ const styles = StyleSheet.create({
   card: {
     width: "100%",
     maxWidth: 340,
-    backgroundColor: "rgba(255, 255, 255, 0.15)",
+    backgroundColor: "rgba(255, 255, 255, 0.30)",
     borderRadius: 28,
     padding: 24,
     alignItems: "center",

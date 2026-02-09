@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
 
-type Mode = "fun" | "spicy";
+type Mode = "fun" | "spicy" | "chaos";
 
 type WordItem = {
   word: string;
@@ -22,6 +22,11 @@ const WORDS: Record<Mode, WordItem[]> = {
     { word: "DESIRE", hint: "Strong wanting" },
     { word: "PASSION", hint: "Intense emotion" },
   ],
+   chaos: [ // ✅ ADD
+    { word: "ANARCHY", hint: "Complete disorder" },
+    { word: "MADNESS", hint: "Extreme chaos" },
+    { word: "PANDEMONIUM", hint: "Wild uproar" },
+  ],
 };
 
 const DARES: Record<Mode, string[]> = {
@@ -36,6 +41,11 @@ const DARES: Record<Mode, string[]> = {
     "🔥 Do your most seductive walk!",
     "😏 Give someone a sultry compliment!",
     "💌 Write a cheesy love line!",
+  ],
+  chaos: [ // ✅ ADD
+    "😈 Spin around 10 times!",
+    "💥 Scream your favorite word!",
+    "🌀 Close eyes for 20 seconds!",
   ],
 };
 

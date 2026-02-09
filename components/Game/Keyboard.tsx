@@ -1,4 +1,5 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
+import { useUIControls } from "../../context/UIControlContext";
 
 type Props = {
   guessedLetters: string[];
@@ -8,6 +9,7 @@ type Props = {
 const LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
 export default function Keyboard({ guessedLetters, onGuess }: Props) {
+  const { click } = useUIControls(); 
   return (
     <View style={styles.container}>
       {LETTERS.map((letter) => {
@@ -17,7 +19,11 @@ export default function Keyboard({ guessedLetters, onGuess }: Props) {
           <Pressable
             key={letter}
             disabled={disabled}
-            onPress={() => onGuess(letter)}
+            onPress={() => {
+              if (!disabled) {
+                click();
+              } onGuess(letter)
+            }}
             style={({ pressed }) => [
               styles.key,
               disabled && styles.disabled,

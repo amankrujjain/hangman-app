@@ -3,10 +3,12 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import FeaturedBanners from "../components/Home/FeaturedBanners";
+import { useUIControls } from "../context/UIControlContext";
 
 export default function HomeScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+   const { click } = useUIControls(); 
   const start = () => {
     router.push("/mode");
   };
@@ -26,7 +28,10 @@ export default function HomeScreen() {
       {/* Bottom CTA */}
       <View style={[styles.bottom, { paddingBottom: insets.bottom + 20 }]}>
         <Pressable
-          onPress={start}
+          onPress={() => {
+            click();
+            start();
+          }}
           style={({ pressed }) => [
             styles.button,
             pressed && { transform: [{ scale: 0.96 }] },
