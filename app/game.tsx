@@ -8,18 +8,22 @@ import Keyboard from "../components/Game/Keyboard";
 import HangmanDrawing from "../components/Game/HangmanDrawing";
 import ResultModal from "../components/Game/ResultModal";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { GameMode } from "../constants/gameModes";
 
 export default function GameScreen() {
-  const { mode } = useLocalSearchParams<{ mode: "fun" | "spicy" | "chaos" }>();
+ const { mode } = useLocalSearchParams<{ mode: GameMode }>();
   const router = useRouter();
   const game = useGame();
   const insets = useSafeAreaInsets();
 
-  useEffect(() => {
-    if (mode) {
-      game.startGame(mode);
-    }
-  }, [mode]);
+useEffect(() => {
+  if (!mode) {
+    router.replace("/");
+    return;
+  }
+
+  game.startGame(mode);
+}, [mode]);
 
   return (
     <View style={[

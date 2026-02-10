@@ -10,17 +10,18 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { ROUTES } from "../constants/routes";
 import { useUIControls } from "../context/UIControlContext";
+import { GameMode } from "../constants/gameModes";
 
 export default function ModeScreen() {
   const router = useRouter();
   const { click } = useUIControls();
 
-  const startGame = (mode: "fun" | "spicy" | "chaos") => {
-    router.push({
-      pathname: ROUTES.GAME as any,
-      params: { mode },
-    });
-  };
+const startGame = (mode: GameMode) => {
+  router.push({
+    pathname: ROUTES.GAME as any,
+    params: { mode },
+  });
+};
 
   return (
     <SafeAreaView style={styles.safe} edges={["bottom"]}>

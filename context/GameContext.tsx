@@ -1,56 +1,11 @@
 import React, { createContext, useContext, useState } from "react";
-
-type Mode = "fun" | "spicy" | "chaos";
-
-type WordItem = {
-  word: string;
-  hint: string;
-};
-
-const MAX_WRONG = 6;
-
-const WORDS: Record<Mode, WordItem[]> = {
-  fun: [
-    { word: "BANANA", hint: "Yellow fruit monkeys love" },
-    { word: "PIZZA", hint: "Italian round delight" },
-    { word: "UNICORN", hint: "Magical horned horse" },
-    { word: "TICKLE", hint: "Makes you laugh uncontrollably" },
-  ],
-  spicy: [
-    { word: "FLIRT", hint: "Playful romantic attention" },
-    { word: "SEDUCE", hint: "To charm romantically" },
-    { word: "DESIRE", hint: "Strong wanting" },
-    { word: "PASSION", hint: "Intense emotion" },
-  ],
-   chaos: [ // ✅ ADD
-    { word: "ANARCHY", hint: "Complete disorder" },
-    { word: "MADNESS", hint: "Extreme chaos" },
-    { word: "PANDEMONIUM", hint: "Wild uproar" },
-  ],
-};
-
-const DARES: Record<Mode, string[]> = {
-  fun: [
-    "🐔 Do your best chicken dance for 30 seconds!",
-    "🎤 Sing the alphabet backwards!",
-    "🤪 Make the ugliest face you can!",
-    "🕺 Do a dramatic slow-motion walk!",
-  ],
-  spicy: [
-    "💋 Send a flirty text!",
-    "🔥 Do your most seductive walk!",
-    "😏 Give someone a sultry compliment!",
-    "💌 Write a cheesy love line!",
-  ],
-  chaos: [ // ✅ ADD
-    "😈 Spin around 10 times!",
-    "💥 Scream your favorite word!",
-    "🌀 Close eyes for 20 seconds!",
-  ],
-};
+import { GameMode } from "../constants/gameModes";
+import { WORDS } from "../constants/gameWords";
+import { DARES } from "../constants/gameDares";
+import { MAX_WRONG_BY_MODE } from "../constants/gameRules";
 
 type GameContextType = {
-  mode: Mode;
+  mode: GameMode;
   word: string;
   hint: string;
   guessedLetters: string[];
@@ -59,7 +14,7 @@ type GameContextType = {
   isWin: boolean;
   dare?: string;
 
-  startGame: (mode: Mode) => void;
+  startGame: (mode: GameMode) => void;
   guessLetter: (letter: string) => void;
   playAgain: () => void;
   goHome: () => void;
@@ -70,7 +25,7 @@ const GameContext = createContext<GameContextType | null>(null);
 export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [mode, setMode] = useState<Mode>("fun");
+  const [mode, setMode] = useState<GameMode>("fun");
   const [word, setWord] = useState("");
   const [hint, setHint] = useState("");
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
@@ -79,7 +34,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
   const [isWin, setIsWin] = useState(false);
   const [dare, setDare] = useState<string>();
 
-  const startGame = (selectedMode: Mode) => {
+  const startGame = (selectedMode: GameMode) => {
     const list = WORDS[selectedMode];
     const random = list[Math.floor(Math.random() * list.length)];
 
@@ -103,9 +58,10 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
       const nextWrong = wrongGuesses + 1;
       setWrongGuesses(nextWrong);
 
-      if (nextWrong >= MAX_WRONG) {
+      if (nextWrong >= MAX_WRONG_BY_MODE[mode]) {
         setIsGameOver(true);
         setIsWin(false);
+
         const list = DARES[mode];
         setDare(list[Math.floor(Math.random() * list.length)]);
       }
