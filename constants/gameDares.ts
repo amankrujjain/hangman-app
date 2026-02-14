@@ -12,10 +12,5 @@ export const DARES: Record<GameMode, string[]> = {
     "🔥 Do your most seductive walk!",
     "😏 Give someone a sultry compliment!",
     "💌 Write a cheesy love line!",
-  ],
-  chaos: [
-    "😈 Spin around 10 times!",
-    "💥 Scream your favorite word!",
-    "🌀 Close eyes for 20 seconds!",
-  ],
+  ]
 };

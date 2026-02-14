@@ -17,10 +17,5 @@ export const WORDS: Record<GameMode, WordItem[]> = {
     { word: "SEDUCE", hint: "To charm romantically" },
     { word: "DESIRE", hint: "Strong wanting" },
     { word: "PASSION", hint: "Intense emotion" },
-  ],
-  chaos: [
-    { word: "ANARCHY", hint: "Complete disorder" },
-    { word: "MADNESS", hint: "Extreme chaos" },
-    { word: "PANDEMONIUM", hint: "Wild uproar" },
-  ],
+  ]
 };

@@ -36,9 +36,7 @@ useEffect(() => {
 <Text style={styles.mode}>
         {game.mode === "fun"
           ? "😂 FUN MODE"
-          : game.mode === "spicy"
-          ? "🔥 SPICY MODE"
-          : "😈 CHAOS MODE"}
+          : "🔥 SPICY MODE"}
       </Text>
 
       <HangmanDrawing wrongGuesses={game.wrongGuesses} />

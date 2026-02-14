@@ -92,28 +92,6 @@ const startGame = (mode: GameMode) => {
             </LinearGradient>
           </Pressable>
 
-          {/* CHAOS MODE */}
-          <Pressable
-            onPress={() => {
-              click();
-              startGame("chaos");
-            }}
-            style={({ pressed }) => [
-              styles.card,
-              pressed && styles.pressed,
-            ]}
-          >
-            <LinearGradient
-              colors={["#0f172a", "#7c2d12"]}
-              style={styles.cardBg}
-            >
-              <Text style={styles.emoji}>😈</Text>
-              <Text style={styles.cardTitle}>CHAOS MODE</Text>
-              <Text style={styles.cardText}>
-                Pure madness. Fewer chances. No mercy.
-              </Text>
-            </LinearGradient>
-          </Pressable>
         </View>
 
         <Text style={styles.footer}>
