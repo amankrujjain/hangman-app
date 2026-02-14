@@ -59,7 +59,7 @@ useEffect(() => {
         word={game.word}
         dare={game.dare}
         onPlayAgain={game.playAgain}
-        onHome={() => router.replace("/")}
+        onMode={() => router.replace("/mode")}
       />
     </View>
   );

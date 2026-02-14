@@ -9,7 +9,7 @@ type Props = {
   word: string;
   dare?: string;
   onPlayAgain: () => void;
-  onHome: () => void;
+  onMode: () => void;
 };
 
 export default function ResultModal({
@@ -18,7 +18,7 @@ export default function ResultModal({
   word,
   dare,
   onPlayAgain,
-  onHome,
+  onMode,
 }: Props) {
     const { click } = useUIControls();
 
@@ -56,9 +56,9 @@ export default function ResultModal({
               </LinearGradient>
             </Pressable>
 
-            <Pressable onPress={() => {click(); onHome();}} style={styles.btn}>
+            <Pressable onPress={() => {click(); onMode();}} style={styles.btn}>
               <View style={[styles.btnBg, styles.homeBtn]}>
-                <Text style={styles.btnText}>Home 🏠</Text>
+                <Text style={styles.btnText}>Different Mode 🪄</Text>
               </View>
             </Pressable>
           </View>
