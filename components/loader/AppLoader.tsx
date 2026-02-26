@@ -22,7 +22,7 @@ export default function AppLoader() {
 
   return (
     <View style={styles.overlay} pointerEvents="auto">
-      <Text style={styles.title}>HAGMAN</Text>
+      <Text style={styles.title}>HANGMAN</Text>
 
       <View style={styles.track}>
         <Animated.View style={[styles.fill, { width }]}>

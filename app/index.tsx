@@ -17,7 +17,7 @@ export default function HomeScreen() {
     <View style={styles.container}>
       {/* Top */}
       <View style={styles.top}>
-        <Text style={styles.title}>HAGMAN</Text>
+        <Text style={styles.title}>HANGMAN</Text>
         <Text style={styles.tagline}>
           Guess Wrong, Face the Dare! 🎭
         </Text>

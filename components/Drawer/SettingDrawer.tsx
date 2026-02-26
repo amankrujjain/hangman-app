@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import { useUIControls } from "../../context/UIControlContext";
 
 type ToggleRowProps = {
@@ -14,18 +15,8 @@ function ToggleRow({ label, value, onPress }: ToggleRowProps) {
     <Pressable style={styles.row} onPress={onPress}>
       <Text style={styles.label}>{label}</Text>
 
-      <View
-        style={[
-          styles.toggle,
-          value && styles.toggleOn,
-        ]}
-      >
-        <View
-          style={[
-            styles.knob,
-            value && styles.knobOn,
-          ]}
-        />
+      <View style={[styles.toggle, value && styles.toggleOn]}>
+        <View style={[styles.knob, value && styles.knobOn]} />
       </View>
     </Pressable>
   );
@@ -33,6 +24,8 @@ function ToggleRow({ label, value, onPress }: ToggleRowProps) {
 
 export default function SettingsDrawer() {
   const insets = useSafeAreaInsets();
+  const router = useRouter();
+
   const {
     drawerOpen,
     closeDrawer,
@@ -40,17 +33,26 @@ export default function SettingsDrawer() {
     soundOn,
     toggleMusic,
     toggleSound,
+    click,
   } = useUIControls();
 
   if (!drawerOpen) return null;
 
+  // 🔥 Navigation helper
+  const goTo = (route: string) => {
+    click();
+    closeDrawer();
+
+    // Small delay so drawer closes smoothly
+    setTimeout(() => {
+      router.push(route as any);
+    }, 150);
+  };
+
   return (
     <Pressable style={styles.overlay} onPress={closeDrawer}>
       <Pressable
-        style={[
-          styles.drawer,
-          { paddingBottom: insets.bottom + 24 },
-        ]}
+        style={[styles.drawer, { paddingBottom: insets.bottom + 24 }]}
         onPress={() => {}}
       >
         {/* HEADER */}
@@ -58,18 +60,17 @@ export default function SettingsDrawer() {
           <Text style={styles.title}>Settings</Text>
 
           <Pressable
-            onPress={closeDrawer}
+            onPress={() => {
+              click();
+              closeDrawer();
+            }}
             hitSlop={12}
             style={({ pressed }) => [
               styles.closeBtn,
               pressed && { opacity: 0.6 },
             ]}
           >
-            <Ionicons
-              name="close"
-              size={22}
-              color="#fca5a5"
-            />
+            <Ionicons name="close" size={22} color="#fca5a5" />
           </Pressable>
         </View>
 
@@ -91,7 +92,10 @@ export default function SettingsDrawer() {
         {/* INFO */}
         <Text style={styles.section}>Info</Text>
 
-        <Pressable style={styles.link}>
+        <Pressable
+          style={styles.link}
+          onPress={() => goTo("/privacy")}
+        >
           <Ionicons
             name="document-text-outline"
             size={18}
@@ -100,7 +104,10 @@ export default function SettingsDrawer() {
           <Text style={styles.linkText}>Privacy Policy</Text>
         </Pressable>
 
-        <Pressable style={styles.link}>
+        <Pressable
+          style={styles.link}
+          onPress={() => goTo("/how-to-play")}
+        >
           <Ionicons
             name="help-circle-outline"
             size={18}
@@ -109,7 +116,10 @@ export default function SettingsDrawer() {
           <Text style={styles.linkText}>How to Play</Text>
         </Pressable>
 
-        <Pressable style={styles.link}>
+        <Pressable
+          style={styles.link}
+          onPress={() => goTo("/terms")}
+        >
           <Ionicons
             name="shield-checkmark-outline"
             size={18}
@@ -117,10 +127,14 @@ export default function SettingsDrawer() {
           />
           <Text style={styles.linkText}>Terms of Use</Text>
         </Pressable>
+
+        {/* FOOTER */}
+        <Text style={styles.version}>Version 1.0.0</Text>
       </Pressable>
     </Pressable>
   );
 }
+
 const styles = StyleSheet.create({
   overlay: {
     position: "absolute",
@@ -213,5 +227,12 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "600",
     color: "#d1d5db",
+  },
+
+  version: {
+    marginTop: 24,
+    fontSize: 12,
+    textAlign: "center",
+    color: "#6b7280",
   },
 });

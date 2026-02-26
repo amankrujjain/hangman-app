@@ -38,7 +38,7 @@ const startGame = (mode: GameMode) => {
       >
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.title}>HAGMAN</Text>
+          <Text style={styles.title}>HANGMAN</Text>
           <Text style={styles.subtitle}>
             Choose Your Destiny! 🎭
           </Text>
