@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   hint: {
-    marginBottom: 16,
+    marginVertical: 15,
     fontSize: 14,
     color: "#facc15",
   },

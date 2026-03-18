@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "center",
     gap: 10,
-    marginVertical: 20,
+    marginVertical: 10,
   },
   letterBox: {
     width: 42,

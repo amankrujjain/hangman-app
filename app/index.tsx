@@ -26,7 +26,7 @@ export default function HomeScreen() {
       </View>
 
       {/* Bottom CTA */}
-      <View style={[styles.bottom, { paddingBottom: insets.bottom + 20 }]}>
+      <View style={[styles.bottom, { paddingBottom: insets.bottom + 8 }]}>
         <Pressable
           onPress={() => {
             click();
@@ -62,12 +62,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
   },
   top: {
-    flex: 1,
+    flex: 0.9,
     alignItems: "center",
     justifyContent: "center",
   },
   title: {
-    fontSize: 64,
+    fontSize: 58,
     fontWeight: "900",
     letterSpacing: 3,
     color: "#fca5a5",
@@ -79,7 +79,8 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   bottom: {
-    paddingBottom: 40,
+    paddingTop: 8,
+    paddingBottom: 24,
     alignItems: "center",
   },
   button: {

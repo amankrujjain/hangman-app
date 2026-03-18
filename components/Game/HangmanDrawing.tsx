@@ -105,7 +105,7 @@ export default function HangmanDrawing({ wrongGuesses }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 16,
+    marginVertical: 10,
     alignItems: "center",
   },
 });
